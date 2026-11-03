@@ -29,35 +29,31 @@ const formattedDate =
     <VideoPlayer src={video} poster={poster.src} label={label} class="aspect-9/16 w-full shrink-0 sm:w-64 md:w-72" />
     <div class="flex flex-col gap-4 p-4 text-base leading-relaxed sm:p-5">
         <slot />
-        <!-- Footnote, pushed to the bottom of the card below a divider: location and source on the left,
-             the date on the right. The left column wraps
-             before reaching the date. -->
-        <div class="mt-auto flex items-end gap-8 border-t border-border pt-4 text-sm text-muted-foreground">
-            <div class="flex min-w-0 flex-1 flex-col gap-2">
-                {
-                    location && (
-                        <p class="flex items-start gap-1.5">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                aria-hidden="true"
-                                class="h-[1lh] w-4 shrink-0"
-                            >
-                                <path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0" />
-                                <circle cx="12" cy="10" r="3" />
-                            </svg>
-                            {location}
-                        </p>
-                    )
-                }
-                <p>Source: {source}</p>
-            </div>
-            {date && <p class="shrink-0"><time datetime={date}>{formattedDate}</time></p>}
+        <!-- Footnote, pushed to the bottom of the card below a divider: location, source, date. -->
+        <div class="mt-auto flex flex-col gap-2 border-t border-border pt-4 text-sm text-muted-foreground">
+            {
+                location && (
+                    <p class="flex items-start gap-1.5">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                            class="h-[1lh] w-4 shrink-0"
+                        >
+                            <path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                        {location}
+                    </p>
+                )
+            }
+            <p>Source: {source}</p>
+            {date && <p><time datetime={date}>{formattedDate}</time></p>}
         </div>
     </div>
 </article>
