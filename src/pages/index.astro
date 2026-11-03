@@ -2,33 +2,36 @@
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import { buttonVariants } from '@/components/ui/button';
-import ThemeToggle from '../components/ThemeToggle.astro';
+import Post from '../components/Post.astro';
 // Transparent copy of the logo (ink as alpha, frame removed), used as a CSS mask.
 import logoMask from '../assets/endangered-songs-logo-mask.png';
-// 480px square from kate.mp4 (full width, no sides cut, no audio) and its first frame.
-import kateVideo from '../assets/kate-circle.mp4';
-import katePoster from '../assets/kate-poster.jpg';
+import katePhoto from '../assets/kate.jpg';
 import yanaPhoto from '../assets/yana-kurlyak.png';
-import darkaPhoto from '../assets/darka-symchych.png';
+import darkaPhoto from '../assets/darka.jpg';
 import melaniiaPhoto from '../assets/melaniia-oleshchuk.png';
-import projectImage from '../assets/project.png';
+import martaPhoto from '../assets/marta.jpg';
+// Posts: vertical 720×1280 videos, each with its title frame as the poster.
+import denmark1Video from '../assets/denmark-1.mp4';
+import denmark1Poster from '../assets/denmark-1-poster.jpg';
+import denmark2Video from '../assets/denmark-2.mp4';
+import denmark2Poster from '../assets/denmark-2-poster.jpg';
 
 const instagram = 'https://www.instagram.com/endangered_songs_project/';
 const email = 'endangeredsongsproject@gmail.com';
 
-// People shown below the header: each has a circular video or photo, a name and an Instagram link.
+// People shown below the header: each has a circular photo, a name and an Instagram link.
 // A photo's optional `position` sets where the square crop sits (CSS object-position; default centered).
 type Person = {
     name: string;
     instagram: string;
-    video?: { src: string; poster: ImageMetadata };
-    photo?: { src: ImageMetadata; alt: string; position?: string };
+    photo: { src: ImageMetadata; alt: string; position?: string };
 };
 const people: Person[] = [
     {
         name: 'Kateryna Smirnova',
         instagram: 'https://www.instagram.com/katerynasmoss/',
-        video: { src: kateVideo, poster: katePoster },
+        // Landscape photo: shift the square crop left so she sits in the circle.
+        photo: { src: katePhoto, alt: 'Kateryna Smirnova in an embroidered blouse, hands raised to her cheek, among trees', position: '35% 50%' },
     },
     {
         name: 'Yana Kurlyak',
@@ -38,13 +41,18 @@ const people: Person[] = [
     {
         name: 'Darka Symchych',
         instagram: 'https://www.instagram.com/darusyaa_/',
-        photo: { src: darkaPhoto, alt: 'Darka Symchych, silhouetted against a curtained window' },
+        photo: { src: darkaPhoto, alt: 'Black-and-white portrait of Darka Symchych looking up, in a white blouse' },
     },
     {
         name: 'Melaniia Oleshchuk',
         instagram: 'https://www.instagram.com/melaniaoaoa/',
         // Portrait photo: aim the square crop higher so her face sits in the circle.
         photo: { src: melaniiaPhoto, alt: 'Soft-focus portrait of Melaniia Oleshchuk', position: '50% 25%' },
+    },
+    {
+        name: 'Marta Habalevych',
+        instagram: 'https://www.instagram.com/marta.hab/',
+        photo: { src: martaPhoto, alt: 'Portrait of Marta Habalevych in a black lace-collared blouse' },
     },
 ];
 ---
@@ -86,52 +94,47 @@ const people: Person[] = [
                 </div>
             </div>
 
-            <!-- Theme toggle in the top-right corner, contact links aligned with the subtitle. -->
-            <div class="flex flex-wrap items-center gap-2 sm:flex-col sm:items-end sm:justify-between sm:self-stretch">
-                <div class="flex flex-wrap items-center gap-2">
-                    <a
-                        href={instagram}
-                        target="_blank"
-                        rel="noopener"
-                        class={buttonVariants({ variant: 'secondary', size: 'icon-lg' })}
-                        aria-label="Instagram"
-                        title="Instagram"
+            <!-- Contact links, aligned with the subtitle. -->
+            <div class="flex flex-wrap items-center gap-2">
+                <a
+                    href={instagram}
+                    target="_blank"
+                    rel="noopener"
+                    class={buttonVariants({ variant: 'secondary', size: 'icon-lg' })}
+                    aria-label="Instagram"
+                    title="Instagram"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            aria-hidden="true"
-                        >
-                            <rect x="2" y="2" width="20" height="20" rx="5" />
-                            <circle cx="12" cy="12" r="4" />
-                            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
-                        </svg>
-                    </a>
-                    <a href={`mailto:${email}`} class={buttonVariants({ variant: 'secondary', size: 'lg' })}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            aria-hidden="true"
-                        >
-                            <rect x="2" y="4" width="20" height="16" rx="2" />
-                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                        </svg>
-                        {email}
-                    </a>
-                </div>
-                <div class="sm:order-first">
-                    <ThemeToggle />
-                </div>
+                        <rect x="2" y="2" width="20" height="20" rx="5" />
+                        <circle cx="12" cy="12" r="4" />
+                        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+                    </svg>
+                </a>
+                <a href={`mailto:${email}`} class={buttonVariants({ variant: 'secondary', size: 'lg' })}>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                    </svg>
+                    {email}
+                </a>
             </div>
         </header>
 
@@ -155,21 +158,6 @@ const people: Person[] = [
                 <feBlend in="SourceGraphic" in2="glow" mode="screen" />
             </filter>
 
-            <!-- Softer variant for the project image (.bloom-soft): smaller blur, weaker glow. -->
-            <filter id="bloom-soft" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-                <feComponentTransfer in="SourceGraphic" result="highlights">
-                    <feFuncR type="linear" slope="2.2" intercept="-1.2" />
-                    <feFuncG type="linear" slope="2.2" intercept="-1.2" />
-                    <feFuncB type="linear" slope="2.2" intercept="-1.2" />
-                </feComponentTransfer>
-                <feGaussianBlur in="highlights" stdDeviation="6" result="blurred" />
-                <feComponentTransfer in="blurred" result="glow">
-                    <feFuncR type="linear" slope="0.6" />
-                    <feFuncG type="linear" slope="0.6" />
-                    <feFuncB type="linear" slope="0.6" />
-                </feComponentTransfer>
-                <feBlend in="SourceGraphic" in2="glow" mode="screen" />
-            </filter>
         </svg>
 
         <!-- Divider with a centered label. -->
@@ -184,31 +172,14 @@ const people: Person[] = [
                 people.map((person) => (
                     <div class="flex items-center gap-4">
                         <div class="size-36 shrink-0 overflow-hidden rounded-full md:size-48">
-                            {person.video ? (
-                                <video
-                                    class="bloom size-full object-cover"
-                                    src={person.video.src}
-                                    poster={person.video.poster.src}
-                                    autoplay
-                                    muted
-                                    loop
-                                    playsinline
-                                    preload="auto"
-                                    aria-hidden="true"
-                                    data-respect-reduced-motion
-                                />
-                            ) : (
-                                person.photo && (
-                                    <Image
-                                        src={person.photo.src}
-                                        alt={person.photo.alt}
-                                        widths={[288, 384]}
-                                        sizes="(min-width: 768px) 192px, 144px"
-                                        class="bloom size-full object-cover"
-                                        style={person.photo.position && `object-position: ${person.photo.position}`}
-                                    />
-                                )
-                            )}
+                            <Image
+                                src={person.photo.src}
+                                alt={person.photo.alt}
+                                widths={[288, 384]}
+                                sizes="(min-width: 768px) 192px, 144px"
+                                class="bloom size-full object-cover"
+                                style={person.photo.position && `object-position: ${person.photo.position}`}
+                            />
                         </div>
                         <div class="flex min-w-0 flex-wrap items-center gap-3">
                             <p class="text-2xl font-bold tracking-tight">{person.name}</p>
@@ -248,46 +219,45 @@ const people: Person[] = [
             <div class="h-px flex-1 bg-border"></div>
         </div>
 
-        <article class="mx-auto mt-16 max-w-2xl overflow-hidden rounded-xl bg-card text-card-foreground ring-1 ring-foreground/10">
-            <Image
-                src={projectImage}
-                alt="Endangered Songs Project: woodcut of a rider with a sword on a leaping horse"
-                widths={[400, 672, 874]}
-                sizes="(min-width: 704px) 672px, calc(100vw - 32px)"
-                class="bloom-soft block h-auto w-full"
-            />
-            <div class="space-y-4 p-6 text-sm leading-relaxed sm:p-8">
+        <!-- Posts, newest first. -->
+        <div class="mx-auto mt-16 flex max-w-4xl flex-col gap-8">
+            <Post
+                video={denmark1Video}
+                poster={denmark1Poster}
+                label="Chy doma doma molodyi Ivanko? / Is young Ivan at home?, performed by the Endangered Songs singers"
+                source="field recording by Oleksandr Pravdiuk, 1972."
+                location="Vepryk village, Hadiach district, Poltava region"
+                date="2025-12-24"
+            >
+                <p class="font-bold">IS YOUNG IVAN AT HOME</p>
                 <p>
-                    About twenty percent of Ukraine’s territory is currently under russian occupation. Towns and villages
-                    have been devastated, and people have been forcibly uprooted. Some lands have been liberated since the
-                    beginning of the full-scale invasion. Frontline communities continue to endure constant danger and
-                    loss, while larger regions live under relentless daily strikes.
+                    Christmas Eve is a time to think of those closest to us, even when they are far away. In Ukrainian
+                    tradition, carols are often addressed to someone dear.
                 </p>
                 <p>
-                    Left-Bank Ukraine — Central and Eastern Polissia, Slobozhanshchyna, the steppe parts of the Dnipro
-                    region, and the South — have a unique place in Ukraine’s musical landscape.
+                    This song is for a son serving in the army — absent from the table, yet present in every thought. A
+                    situation that remains painfully true for many families today.
                 </p>
+                <p>A rear region, strongly affected by missile attacks.</p>
+                <p>We perform the Poltava variant; a Sumy version of the carol is also documented.</p>
+            </Post>
+
+            <Post
+                video={denmark2Video}
+                poster={denmark2Poster}
+                label="Okh i ny plach, maty, ne ryday / Oh, do not weep, my mother, do not cry, performed by the Endangered Songs singers"
+                source="Concert recording by the Serpanok folk ensemble, based on an original field recording preserved in the Dubravin family archive."
+                location="Terny village, Romny district, Sumy region"
+                date="2025-12-01"
+            >
+                <p class="font-bold">OH, DO NOT WEEP, MY MOTHER, DO NOT CRY</p>
+                <p>A recruit song from the Sumy region about a son reassuring his mother as he heads off to war.</p>
                 <p>
-                    Each region, each district, and at times even a single village has developed its own unique and
-                    recognizable singing tradition. These traditions now face the risk of eradication – yet also provide a
-                    sense of continuity in a cultural space marked by displacement, devastation, and efforts to erase local
-                    memory.
+                    The area suffered during the russian invasion in 2022. Just 36 km from the russian border, it remains
+                    at high risk and under constant shelling.
                 </p>
-                <p>
-                    Within the Endangered Songs project, we present these songs to you — offering not only their sound,
-                    but also the contexts, stories, and the meanings they take on in our time.
-                </p>
-            </div>
-        </article>
+            </Post>
+        </div>
     </main>
 
-    <script>
-        // Autoplaying video stays on its first frame for visitors who prefer reduced motion.
-        if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            for (const video of document.querySelectorAll<HTMLVideoElement>('video[data-respect-reduced-motion]')) {
-                video.pause();
-                video.removeAttribute('autoplay');
-            }
-        }
-    </script>
 </Layout>

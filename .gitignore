@@ -24,7 +24,6 @@ pnpm-debug.log*
 .idea/
 
 # large source media kept locally, not used by the site
-# (the page uses src/assets/kate-circle.mp4, cut from kate.mp4)
 src/assets/kate.mp4
 src/assets/christmas-eve.png
 src/assets/poster.png

@@ -10,7 +10,8 @@ const { title, description = 'Musical heritage under missiles / traditional sing
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<html lang="en">
+<!-- Dark theme only; the class keeps the UI components' dark: styles on. -->
+<html lang="en" class="dark">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,17 +19,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         <meta name="generator" content={Astro.generator} />
         <link rel="icon" type="image/png" href={`${base}/favicon.png`} />
         <title>{title}</title>
-        <!-- Apply the saved theme (or the system preference) before first paint. -->
-        <script is:inline>
-            (() => {
-                let theme = null;
-                try {
-                    theme = localStorage.getItem('theme');
-                } catch {}
-                const dark = theme ? theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-                document.documentElement.classList.toggle('dark', dark);
-            })();
-        </script>
     </head>
     <body>
         <slot />

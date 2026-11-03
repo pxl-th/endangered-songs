@@ -80,42 +80,6 @@
 }
 
 :root {
-    color-scheme: light;
-    --background: #ffffff;
-    --foreground: #171717;
-    --card: #ffffff;
-    --card-foreground: #171717;
-    --popover: #ffffff;
-    --popover-foreground: #171717;
-    --primary: #171717;
-    --primary-foreground: #ffffff;
-    --secondary: #fafafa;
-    --secondary-foreground: #171717;
-    --muted: #fafafa;
-    --muted-foreground: #4d4d4d;
-    --accent: #fafafa;
-    --accent-foreground: #171717;
-    --destructive: #ea001d;
-    --border: #ebebeb;
-    --input: #919191;
-    --ring: #006bff;
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: #fafafa;
-    --sidebar-foreground: #171717;
-    --sidebar-primary: #171717;
-    --sidebar-primary-foreground: #ffffff;
-    --sidebar-accent: #fafafa;
-    --sidebar-accent-foreground: #171717;
-    --sidebar-border: #ebebeb;
-    --sidebar-ring: #006bff;
-}
-
-.dark {
     color-scheme: dark;
     --background: #0a0a0a;
     --foreground: #ededed;
@@ -140,6 +104,7 @@
     --chart-3: oklch(0.439 0 0);
     --chart-4: oklch(0.371 0 0);
     --chart-5: oklch(0.269 0 0);
+    --radius: 0.625rem;
     --sidebar: #171717;
     --sidebar-foreground: #ededed;
     --sidebar-primary: #ededed;
@@ -165,8 +130,4 @@
 /* Soft glow from the brightest parts of a picture (SVG filter #bloom in index.astro). */
 .bloom {
     filter: url(#bloom);
-}
-
-.bloom-soft {
-    filter: url(#bloom-soft);
 }
