@@ -15,6 +15,8 @@ import denmark1Video from '../assets/denmark-1.mp4';
 import denmark1Poster from '../assets/denmark-1-poster.jpg';
 import denmark2Video from '../assets/denmark-2.mp4';
 import denmark2Poster from '../assets/denmark-2-poster.jpg';
+import denmark3Video from '../assets/denmark-3.mp4';
+import denmark3Poster from '../assets/denmark-3-poster.jpg';
 
 const instagram = 'https://www.instagram.com/endangered_songs_project/';
 const email = 'endangeredsongsproject@gmail.com';
@@ -220,7 +222,7 @@ const people: Person[] = [
         </div>
 
         <!-- Posts, newest first. -->
-        <div class="mx-auto mt-16 flex max-w-4xl flex-col gap-8">
+        <div class="mx-auto mt-16 flex max-w-4xl flex-col gap-4">
             <Post
                 video={denmark1Video}
                 poster={denmark1Poster}
@@ -240,6 +242,33 @@ const people: Person[] = [
                 </p>
                 <p>A rear region, strongly affected by missile attacks.</p>
                 <p>We perform the Poltava variant; a Sumy version of the carol is also documented.</p>
+            </Post>
+
+            <Post
+                video={denmark3Video}
+                poster={denmark3Poster}
+                label="Zatsviv teren shche y loza / Blackthorn blooms, and so does the willow, performed by the Endangered Songs singers"
+                location="Vodyane village, Kamyansk-Dnipro district, Zaporizhzhia region"
+                date="2025-12-05"
+            >
+                <p class="font-bold">
+                    ZATSVIV TEREN SHCHE Y LOZA<br />/ BLACKTHORN BLOOMS, AND SO DOES THE WILLOW
+                </p>
+                <p>
+                    A lyrical song from the Zaporizhzhia region about a young woman whose heart has grown forlorn.
+                    Holding a nightingale in her hands, she asks it to sing for her in a foreign land, where she is left
+                    without her parents or her beloved Vanyusha.
+                </p>
+                <p>Occupied since 2022.</p>
+                <Fragment slot="source">
+                    Field recording by Both Miklos, Illya Fetysov, Susanna Karpenko.
+                    <a
+                        href="https://polyphonyproject.com/"
+                        target="_blank"
+                        rel="noopener"
+                        class="underline underline-offset-2 hover:text-foreground">polyphonyproject.com</a
+                    >
+                </Fragment>
             </Post>
 
             <Post
