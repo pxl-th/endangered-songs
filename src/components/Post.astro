@@ -1,6 +1,6 @@
 ---
 // Post: two cards side by side, the text on the left and the vertical video on the right
-// (stacked on small screens, video first).
+// (stacked on small screens, video first, full width and cropped to 4:5 so it is not too tall).
 // The body goes in the default slot; location, source and date form a footnote at the bottom.
 import VideoPlayer from './VideoPlayer.astro';
 
@@ -32,7 +32,7 @@ const formattedDate =
         src={video}
         poster={poster.src}
         label={label}
-        class="aspect-9/16 w-full shrink-0 rounded-md ring-1 ring-foreground/10 sm:w-64 md:w-72"
+        class="aspect-4/5 w-full shrink-0 rounded-md ring-1 ring-foreground/10 sm:aspect-9/16 sm:w-64 md:w-72"
     />
     <div
         class="flex flex-1 flex-col gap-4 rounded-md bg-card p-4 text-base leading-relaxed text-card-foreground ring-1 ring-foreground/10 sm:p-5"
