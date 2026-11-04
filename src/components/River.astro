@@ -5,10 +5,11 @@
 // `data-river-color` overrides its dot color.
 // Every dot pulses together with its bloom; the first (newest post) is white, the others grey. The path is computed in
 // the browser from the real marker positions and redrawn whenever the layout changes size. As
-// the page scrolls, the line grows from the first dot (at the top of the page) to the last one
-// (once the last dot is 70% of the way down the viewport, or at the bottom of the page if it
-// can't scroll that far), and each dot and date fades in as the line reaches it (all shown at
-// once for reduced motion).
+// the page scrolls, the line's tip follows a point 70% of the way down the viewport: it starts
+// growing from the first dot when that dot reaches that point (or straight away at the top of
+// the page if it is already above it) and is complete when the last dot does (or at the bottom
+// of the page if it can't scroll that far). Each dot and date fades in as the line reaches it
+// (all shown at once for reduced motion).
 ---
 
 <!-- `isolate` keeps the line's negative z-index inside this block: behind the posts, above the page. -->
@@ -124,12 +125,15 @@
             if (!anchors.length) return;
             const first = anchors[0];
             const last = anchors[anchors.length - 1];
-            // Scroll position at which the line should be complete, capped at the page bottom.
+            // Scroll positions at which the line starts (first dot at the reveal point, not
+            // before the top of the page) and is complete (last dot there, capped at the bottom).
             const riverTop = river.getBoundingClientRect().top + scrollY;
             const maxScroll = document.documentElement.scrollHeight - innerHeight;
+            const start = Math.max(0, riverTop + first - innerHeight * REVEAL_AT);
             const end = Math.min(maxScroll, riverTop + last - innerHeight * REVEAL_AT);
-            // Tip of the line: the first dot at the top of the page, the last at `end`.
-            const y = reduceMotion || end <= 0 ? Infinity : first + (last - first) * Math.min(1, Math.max(0, scrollY) / end);
+            // Tip of the line: at the first dot until `start`, at the last from `end`.
+            const progress = end <= start ? 1 : Math.min(1, Math.max(0, (scrollY - start) / (end - start)));
+            const y = reduceMotion || end <= 0 ? Infinity : first + (last - first) * progress;
             const drawn = y >= last ? length : y <= first ? 0 : lengthAtY(y);
             path.style.strokeDashoffset = String(length - drawn);
             dots.querySelectorAll('circle').forEach((dot, i) => dot.classList.toggle('river-hidden', anchors[i] > y));
