@@ -3,7 +3,7 @@
 // behind the posts, with a dot at each `[data-river-marker]` (the date row above each post): at
 // its `[data-river-dot]` child if it has one, otherwise at its center. A marker's
 // `data-river-color` overrides its dot color.
-// Every dot pulses together with its bloom; the first (newest post) is white, the others grey. The path is computed in
+// Every dot pulses together with its bloom; each is white unless `data-river-color` sets another. The path is computed in
 // the browser from the real marker positions and redrawn whenever the layout changes size. As
 // the page scrolls, the line's tip follows a point 70% of the way down the viewport: it starts
 // growing from the first dot when that dot reaches that point (or straight away at the top of
@@ -184,7 +184,7 @@
                     dot.setAttribute('cx', String(center));
                     dot.setAttribute('cy', String(y));
                     dot.setAttribute('r', '4');
-                    dot.setAttribute('fill', colors[i] || (i === 0 ? 'var(--foreground)' : 'var(--muted-foreground)'));
+                    dot.setAttribute('fill', colors[i] || 'var(--foreground)');
                     dot.setAttribute('filter', 'url(#river-dot-bloom)');
                     dot.classList.add('river-dot-pulse');
                     // Offset each dot's pulse a little so they don't all beat in unison.

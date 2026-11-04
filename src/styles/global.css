@@ -137,41 +137,50 @@
     filter: url(#bloom);
 }
 
-/* Current page's link: no background, white text (--nav-color) with a pulsing glow in the same
-   color, in time with the logo. Static glow for reduced
-   motion. */
-.nav-current,
-.nav-current:hover {
-    --nav-color: #ffffff;
-    background-color: transparent;
-    color: var(--nav-color);
+/* Text in --glow-color with a pulsing glow in the same color, in time with the logo. Static
+   glow for reduced motion. */
+.text-bloom {
+    color: var(--glow-color);
     text-shadow:
-        0 0 6px color-mix(in srgb, var(--nav-color) 70%, transparent),
-        0 0 18px color-mix(in srgb, var(--nav-color) 45%, transparent),
-        0 0 32px color-mix(in srgb, var(--nav-color) 25%, transparent);
-    animation: nav-current-bloom 3.2s ease-in-out infinite;
+        0 0 6px color-mix(in srgb, var(--glow-color) 70%, transparent),
+        0 0 18px color-mix(in srgb, var(--glow-color) 45%, transparent),
+        0 0 32px color-mix(in srgb, var(--glow-color) 25%, transparent);
+    animation: text-bloom 3.2s ease-in-out infinite;
 }
 
-@keyframes nav-current-bloom {
+@keyframes text-bloom {
     0%,
     100% {
         text-shadow:
-            0 0 6px color-mix(in srgb, var(--nav-color) 70%, transparent),
-            0 0 18px color-mix(in srgb, var(--nav-color) 45%, transparent),
-            0 0 32px color-mix(in srgb, var(--nav-color) 25%, transparent);
+            0 0 6px color-mix(in srgb, var(--glow-color) 70%, transparent),
+            0 0 18px color-mix(in srgb, var(--glow-color) 45%, transparent),
+            0 0 32px color-mix(in srgb, var(--glow-color) 25%, transparent);
     }
     50% {
         text-shadow:
-            0 0 8px color-mix(in srgb, var(--nav-color) 95%, transparent),
-            0 0 26px color-mix(in srgb, var(--nav-color) 70%, transparent),
-            0 0 48px color-mix(in srgb, var(--nav-color) 45%, transparent);
+            0 0 8px color-mix(in srgb, var(--glow-color) 95%, transparent),
+            0 0 26px color-mix(in srgb, var(--glow-color) 70%, transparent),
+            0 0 48px color-mix(in srgb, var(--glow-color) 45%, transparent);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .nav-current {
+    .text-bloom {
         animation: none;
     }
+}
+
+/* Current page's link: no background, white glowing text (with .text-bloom). */
+.nav-current,
+.nav-current:hover {
+    --glow-color: #ffffff;
+    background-color: transparent;
+    color: var(--glow-color);
+}
+
+/* "missiles" in the header: red, like occupied places (with .text-bloom). */
+.missiles {
+    --glow-color: var(--destructive);
 }
 
 /* Occupied places: shown in red. */

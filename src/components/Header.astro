@@ -14,8 +14,8 @@ const pages = [
 ---
 
 <!-- One line on large screens, in three columns: the equal side columns keep the page links in
-     the exact center. -->
-<header class="flex flex-col gap-6 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center">
+     the exact center. On narrower screens the parts stack, each centered. -->
+<header class="flex flex-col items-center gap-6 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center">
     <!-- Flag, then the title and subtitle beside it. -->
     <div class="flex items-center gap-4">
         <!-- Ukrainian flag behind the same 2px frosted blur as the logo.
@@ -33,7 +33,7 @@ const pages = [
         </div>
         <div class="flex flex-col gap-1">
             <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">Endangered Songs</h1>
-            <p class="text-sm leading-relaxed">musical heritage under missiles<br />/ traditional singing from (de)occupied Ukraine</p>
+            <p class="text-sm leading-relaxed">musical heritage under <span class="missiles text-bloom">missiles</span><br />/ traditional singing from (de)occupied Ukraine</p>
         </div>
     </div>
 
@@ -45,7 +45,7 @@ const pages = [
                 <a
                     href={page.href}
                     aria-current={page.current ? 'page' : undefined}
-                    class={cn(buttonVariants({ variant: 'ghost', size: 'lg' }), 'h-11 px-5 text-lg', page.current && 'nav-current')}
+                    class={cn(buttonVariants({ variant: 'ghost', size: 'lg' }), 'h-11 px-5 text-lg', page.current && 'nav-current text-bloom')}
                 >
                     {page.label}
                 </a>
@@ -54,7 +54,7 @@ const pages = [
     </nav>
 
     <!-- Contact links, on the same line as the title. -->
-    <div class="flex flex-wrap items-center gap-2 lg:justify-end">
+    <div class="flex flex-wrap items-center justify-center gap-2 lg:justify-end">
         <a
             href={instagram}
             target="_blank"
