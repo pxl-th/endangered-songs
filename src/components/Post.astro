@@ -3,6 +3,8 @@
 // (stacked on small screens, video first, full width and cropped to 4:5 so it is not too tall).
 // Above the cards is a marker row with the date, the River timeline's dot and the location.
 // The body goes in the default slot; the source forms a footnote at the bottom.
+// Without a date or location there is no marker row, and without a source no footnote, so a post
+// can also stand alone outside the River.
 import VideoPlayer from './VideoPlayer.astro';
 
 interface Props {
@@ -36,38 +38,42 @@ const formattedDate =
 <div id={id} class="scroll-mt-8">
     <!-- Marker row, centered on the River line: the date, the River dot (data-river-dot), then
          the location. The text has the page background so the line passes behind it. -->
-    <div
-        data-river-marker
-        data-river-color={occupied && 'var(--destructive)'}
-        class="flex flex-col items-center gap-4 px-4 py-3 text-center text-sm text-foreground/75"
-    >
-        {date && <time datetime={date} class="river-label bg-background px-2">{formattedDate}</time>}
-        <span data-river-dot class="size-2 shrink-0"></span>
-        {
-            location && (
-                <p class:list={['river-label flex items-start gap-1.5 bg-background px-2', occupied && 'occupied']}>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
-                        class="h-[1lh] w-4 shrink-0"
-                    >
-                        <path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0" />
-                        <circle cx="12" cy="10" r="3" />
-                    </svg>
-                    <span>
-                        {location}
-                        {occupied && <span class="block">{occupied}</span>}
-                    </span>
-                </p>
-            )
-        }
-    </div>
+    {
+        (date || location) && (
+            <div
+                data-river-marker
+                data-river-color={occupied && 'var(--destructive)'}
+                class="flex flex-col items-center gap-4 px-4 py-3 text-center text-sm text-foreground/75"
+            >
+                {date && <time datetime={date} class="river-label bg-background px-2">{formattedDate}</time>}
+                <span data-river-dot class="size-2 shrink-0"></span>
+                {
+                    location && (
+                        <p class:list={['river-label flex items-start gap-1.5 bg-background px-2', occupied && 'occupied']}>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                aria-hidden="true"
+                                class="h-[1lh] w-4 shrink-0"
+                            >
+                                <path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0" />
+                                <circle cx="12" cy="10" r="3" />
+                            </svg>
+                            <span>
+                                {location}
+                                {occupied && <span class="block">{occupied}</span>}
+                            </span>
+                        </p>
+                    )
+                }
+            </div>
+        )
+    }
     <article class="flex flex-col gap-4 sm:flex-row-reverse">
         <VideoPlayer
             src={video}
@@ -80,9 +86,11 @@ const formattedDate =
         >
             <slot />
             <!-- Footnote, pushed to the bottom of the card below a divider: the source. -->
-            <div class="mt-auto flex flex-col gap-2 border-t border-border pt-4 text-sm text-foreground/75">
-                <p>Source: {Astro.slots.has('source') ? <slot name="source" /> : source}</p>
-            </div>
+            {(source || Astro.slots.has('source')) && (
+                <div class="mt-auto flex flex-col gap-2 border-t border-border pt-4 text-sm text-foreground/75">
+                    <p>Source: {Astro.slots.has('source') ? <slot name="source" /> : source}</p>
+                </div>
+            )}
         </div>
     </article>
 </div>

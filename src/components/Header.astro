@@ -1,0 +1,98 @@
+---
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+
+const instagram = 'https://www.instagram.com/endangered_songs_project/';
+const email = 'endangeredsongsproject@gmail.com';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = Astro.url.pathname.replace(/\/$/, '');
+const pages = [
+    { label: 'Home', href: `${base}/` },
+    { label: 'Recordings', href: `${base}/recordings/` },
+].map((page) => ({ ...page, current: page.href.replace(/\/$/, '') === path }));
+---
+
+<!-- One line on large screens, in three columns: the equal side columns keep the page links in
+     the exact center. -->
+<header class="flex flex-col gap-6 lg:grid lg:grid-cols-[1fr_auto_1fr] lg:items-center">
+    <!-- Flag, then the title and subtitle beside it. -->
+    <div class="flex items-center gap-4">
+        <!-- Ukrainian flag behind the same 2px frosted blur as the logo.
+             The padding gives the blur room at the edges. -->
+        <div class="relative p-1">
+            <div
+                role="img"
+                aria-label="Flag of Ukraine"
+                class="flex h-8 w-12 flex-col overflow-hidden rounded-sm md:h-10 md:w-15"
+            >
+                <div class="flex-1 bg-[#0057b7]"></div>
+                <div class="flex-1 bg-[#ffd700]"></div>
+            </div>
+            <div aria-hidden="true" class="absolute inset-0 backdrop-blur-[2px]"></div>
+        </div>
+        <div class="flex flex-col gap-1">
+            <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">Endangered Songs</h1>
+            <p class="text-sm leading-relaxed">musical heritage under missiles<br />/ traditional singing from (de)occupied Ukraine</p>
+        </div>
+    </div>
+
+    <!-- Links to the site's pages, centered between the title and the contacts; on narrower screens
+         they come first, above the title. The current page is marked. -->
+    <nav aria-label="Pages" class="order-first flex flex-wrap justify-center gap-3 lg:order-none">
+        {
+            pages.map((page) => (
+                <a
+                    href={page.href}
+                    aria-current={page.current ? 'page' : undefined}
+                    class={cn(buttonVariants({ variant: 'ghost', size: 'lg' }), 'h-11 px-5 text-lg', page.current && 'nav-current')}
+                >
+                    {page.label}
+                </a>
+            ))
+        }
+    </nav>
+
+    <!-- Contact links, on the same line as the title. -->
+    <div class="flex flex-wrap items-center gap-2 lg:justify-end">
+        <a
+            href={instagram}
+            target="_blank"
+            rel="noopener"
+            class={buttonVariants({ variant: 'secondary', size: 'icon-lg' })}
+            aria-label="Instagram"
+            title="Instagram"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+            >
+                <rect x="2" y="2" width="20" height="20" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+            </svg>
+        </a>
+        <a href={`mailto:${email}`} class={buttonVariants({ variant: 'secondary', size: 'lg' })}>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+            >
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+            {email}
+        </a>
+    </div>
+</header>

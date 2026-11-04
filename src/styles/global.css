@@ -137,6 +137,43 @@
     filter: url(#bloom);
 }
 
+/* Current page's link: no background, white text (--nav-color) with a pulsing glow in the same
+   color, in time with the logo. Static glow for reduced
+   motion. */
+.nav-current,
+.nav-current:hover {
+    --nav-color: #ffffff;
+    background-color: transparent;
+    color: var(--nav-color);
+    text-shadow:
+        0 0 6px color-mix(in srgb, var(--nav-color) 70%, transparent),
+        0 0 18px color-mix(in srgb, var(--nav-color) 45%, transparent),
+        0 0 32px color-mix(in srgb, var(--nav-color) 25%, transparent);
+    animation: nav-current-bloom 3.2s ease-in-out infinite;
+}
+
+@keyframes nav-current-bloom {
+    0%,
+    100% {
+        text-shadow:
+            0 0 6px color-mix(in srgb, var(--nav-color) 70%, transparent),
+            0 0 18px color-mix(in srgb, var(--nav-color) 45%, transparent),
+            0 0 32px color-mix(in srgb, var(--nav-color) 25%, transparent);
+    }
+    50% {
+        text-shadow:
+            0 0 8px color-mix(in srgb, var(--nav-color) 95%, transparent),
+            0 0 26px color-mix(in srgb, var(--nav-color) 70%, transparent),
+            0 0 48px color-mix(in srgb, var(--nav-color) 45%, transparent);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-current {
+        animation: none;
+    }
+}
+
 /* Occupied places: shown in red. */
 .occupied {
     color: var(--destructive);
