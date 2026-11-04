@@ -66,12 +66,20 @@ const people: Person[] = [
             <div class="flex flex-col items-start gap-4">
                 <div class="flex items-center gap-3">
                     <!-- Logo as a stencil filled with the text color, so the page background shows
-                         through and it follows the theme. A light frosted blur sits on top. -->
+                         through and it follows the theme. A light frosted blur sits on top.
+                         The pulsing glow comes from a copy of the logo on its own layer underneath:
+                         a filter on the shared wrapper would stop the frosted blur from working. -->
                     <div class="relative size-16 md:size-20">
+                        <div aria-hidden="true" class="logo-bloom absolute inset-0">
+                            <div
+                                class="size-full bg-foreground"
+                                style={`-webkit-mask: url(${logoMask.src}) center / contain no-repeat; mask: url(${logoMask.src}) center / contain no-repeat;`}
+                            ></div>
+                        </div>
                         <div
                             role="img"
                             aria-label="Endangered Songs logo: a rider with a sword on a leaping horse"
-                            class="size-full bg-foreground"
+                            class="relative size-full bg-foreground"
                             style={`-webkit-mask: url(${logoMask.src}) center / contain no-repeat; mask: url(${logoMask.src}) center / contain no-repeat;`}
                         ></div>
                         <div aria-hidden="true" class="absolute inset-0 backdrop-blur-[2px]"></div>

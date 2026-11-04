@@ -141,3 +141,26 @@
 .occupied {
     color: var(--destructive);
 }
+
+/* Pulsing glow around the logo. On a wrapper around a masked copy of the logo, not the masked
+   logo itself: a mask would cut the glow off. Static glow for reduced motion. */
+.logo-bloom {
+    filter: drop-shadow(0 0 4px rgb(255 255 255 / 0.35)) drop-shadow(0 0 12px rgb(255 255 255 / 0.2));
+    animation: logo-bloom 3.2s ease-in-out infinite;
+}
+
+@keyframes logo-bloom {
+    0%,
+    100% {
+        filter: drop-shadow(0 0 4px rgb(255 255 255 / 0.35)) drop-shadow(0 0 12px rgb(255 255 255 / 0.2));
+    }
+    50% {
+        filter: drop-shadow(0 0 6px rgb(255 255 255 / 0.65)) drop-shadow(0 0 20px rgb(255 255 255 / 0.4));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .logo-bloom {
+        animation: none;
+    }
+}
