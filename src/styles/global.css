@@ -136,3 +136,8 @@
 .bloom {
     filter: url(#bloom);
 }
+
+/* Occupied places: shown in red. */
+.occupied {
+    color: var(--destructive);
+}

@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import { buttonVariants } from '@/components/ui/button';
 import Post from '../components/Post.astro';
+import River from '../components/River.astro';
 // Transparent copy of the logo (ink as alpha, frame removed), used as a CSS mask.
 import logoMask from '../assets/endangered-songs-logo-mask.png';
 import katePhoto from '../assets/kate.jpg';
@@ -169,71 +170,76 @@ const people: Person[] = [
             <div class="h-px flex-1 bg-border"></div>
         </div>
 
-        <!-- Posts, newest first. -->
-        <div class="mx-auto mt-16 flex max-w-4xl flex-col gap-4">
-            <Post
-                video={denmark1Video}
-                poster={denmark1Poster}
-                label="Chy doma doma molodyi Ivanko? / Is young Ivan at home?, performed by the Endangered Songs singers"
-                source="field recording by Oleksandr Pravdiuk, 1972."
-                location="Vepryk village, Hadiach district, Poltava region"
-                date="2025-12-24"
-            >
-                <p class="font-bold">IS YOUNG IVAN AT HOME</p>
-                <p>
-                    Christmas Eve is a time to think of those closest to us, even when they are far away. In Ukrainian
-                    tradition, carols are often addressed to someone dear.
-                </p>
-                <p>
-                    This song is for a son serving in the army — absent from the table, yet present in every thought. A
-                    situation that remains painfully true for many families today.
-                </p>
-                <p>A rear region, strongly affected by missile attacks.</p>
-                <p>We perform the Poltava variant; a Sumy version of the carol is also documented.</p>
-            </Post>
-
-            <Post
-                video={denmark3Video}
-                poster={denmark3Poster}
-                label="Zatsviv teren shche y loza / Blackthorn blooms, and so does the willow, performed by the Endangered Songs singers"
-                location="Vodyane village, Kamyansk-Dnipro district, Zaporizhzhia region"
-                date="2025-12-05"
-            >
-                <p class="font-bold">
-                    ZATSVIV TEREN SHCHE Y LOZA<br />/ BLACKTHORN BLOOMS, AND SO DOES THE WILLOW
-                </p>
-                <p>
-                    A lyrical song from the Zaporizhzhia region about a young woman whose heart has grown forlorn.
-                    Holding a nightingale in her hands, she asks it to sing for her in a foreign land, where she is left
-                    without her parents or her beloved Vanyusha.
-                </p>
-                <p>Occupied since 2022.</p>
-                <Fragment slot="source">
-                    Field recording by Both Miklos, Illya Fetysov, Susanna Karpenko.
-                    <a
-                        href="https://polyphonyproject.com/"
-                        target="_blank"
-                        rel="noopener"
-                        class="underline underline-offset-2 hover:text-foreground">polyphonyproject.com</a
+        <!-- Posts, newest first, joined by a meandering line down the middle, behind the posts.
+             Each post's date and dot sit in the row above it, which also spaces the posts. -->
+        <div class="mx-auto mt-16 max-w-4xl">
+            <River>
+                <div class="flex flex-col gap-10">
+                    <Post
+                        video={denmark1Video}
+                        poster={denmark1Poster}
+                        label="Chy doma doma molodyi Ivanko? / Is young Ivan at home?, performed by the Endangered Songs singers"
+                        source="field recording by Oleksandr Pravdiuk, 1972."
+                        location="Vepryk village, Hadiach district, Poltava region"
+                        date="2025-12-24"
                     >
-                </Fragment>
-            </Post>
+                        <p class="font-bold">IS YOUNG IVAN AT HOME</p>
+                        <p>
+                            Christmas Eve is a time to think of those closest to us, even when they are far away. In Ukrainian
+                            tradition, carols are often addressed to someone dear.
+                        </p>
+                        <p>
+                            This song is for a son serving in the army — absent from the table, yet present in every thought. A
+                            situation that remains painfully true for many families today.
+                        </p>
+                        <p>A rear region, strongly affected by missile attacks.</p>
+                        <p>We perform the Poltava variant; a Sumy version of the carol is also documented.</p>
+                    </Post>
 
-            <Post
-                video={denmark2Video}
-                poster={denmark2Poster}
-                label="Okh i ny plach, maty, ne ryday / Oh, do not weep, my mother, do not cry, performed by the Endangered Songs singers"
-                source="Concert recording by the Serpanok folk ensemble, based on an original field recording preserved in the Dubravin family archive."
-                location="Terny village, Romny district, Sumy region"
-                date="2025-12-01"
-            >
-                <p class="font-bold">OH, DO NOT WEEP, MY MOTHER, DO NOT CRY</p>
-                <p>A recruit song from the Sumy region about a son reassuring his mother as he heads off to war.</p>
-                <p>
-                    The area suffered during the russian invasion in 2022. Just 36 km from the russian border, it remains
-                    at high risk and under constant shelling.
-                </p>
-            </Post>
+                    <Post
+                        video={denmark3Video}
+                        poster={denmark3Poster}
+                        label="Zatsviv teren shche y loza / Blackthorn blooms, and so does the willow, performed by the Endangered Songs singers"
+                        location="Vodyane village, Kamyansk-Dnipro district, Zaporizhzhia region"
+                        occupied="Occupied since 2022."
+                        date="2025-12-05"
+                    >
+                        <p class="font-bold">
+                            ZATSVIV TEREN SHCHE Y LOZA<br />/ BLACKTHORN BLOOMS, AND SO DOES THE WILLOW
+                        </p>
+                        <p>
+                            A lyrical song from the Zaporizhzhia region about a young woman whose heart has grown forlorn.
+                            Holding a nightingale in her hands, she asks it to sing for her in a foreign land, where she is left
+                            without her parents or her beloved Vanyusha.
+                        </p>
+                        <Fragment slot="source">
+                            Field recording by Both Miklos, Illya Fetysov, Susanna Karpenko.
+                            <a
+                                href="https://polyphonyproject.com/"
+                                target="_blank"
+                                rel="noopener"
+                                class="underline underline-offset-2 hover:text-foreground">polyphonyproject.com</a
+                            >
+                        </Fragment>
+                    </Post>
+
+                    <Post
+                        video={denmark2Video}
+                        poster={denmark2Poster}
+                        label="Okh i ny plach, maty, ne ryday / Oh, do not weep, my mother, do not cry, performed by the Endangered Songs singers"
+                        source="Concert recording by the Serpanok folk ensemble, based on an original field recording preserved in the Dubravin family archive."
+                        location="Terny village, Romny district, Sumy region"
+                        date="2025-12-01"
+                    >
+                        <p class="font-bold">OH, DO NOT WEEP, MY MOTHER, DO NOT CRY</p>
+                        <p>A recruit song from the Sumy region about a son reassuring his mother as he heads off to war.</p>
+                        <p>
+                            The area suffered during the russian invasion in 2022. Just 36 km from the russian border, it remains
+                            at high risk and under constant shelling.
+                        </p>
+                    </Post>
+                </div>
+            </River>
         </div>
 
         <!-- Divider with a centered label. -->
