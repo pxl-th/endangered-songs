@@ -125,6 +125,11 @@
   html {
     @apply font-sans;
     }
+  /* Darker, muted text selection instead of the bright browser default. */
+  ::selection {
+    background-color: #3a3a3a;
+    color: #ffffff;
+  }
 }
 
 /* Soft glow from the brightest parts of a picture (SVG filter #bloom in index.astro). */
