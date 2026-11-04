@@ -6,6 +6,8 @@
 import VideoPlayer from './VideoPlayer.astro';
 
 interface Props {
+    // Anchor for links to this post (e.g. from the map).
+    id?: string;
     video: string;
     poster: ImageMetadata;
     label: string;
@@ -20,7 +22,7 @@ interface Props {
     date?: string;
 }
 
-const { video, poster, label, source, location, occupied, date } = Astro.props;
+const { id, video, poster, label, source, location, occupied, date } = Astro.props;
 const formattedDate =
     date &&
     new Date(`${date}T00:00:00Z`).toLocaleDateString('en-US', {
@@ -31,7 +33,7 @@ const formattedDate =
     });
 ---
 
-<div>
+<div id={id} class="scroll-mt-8">
     <!-- Marker row, centered on the River line: the date, the River dot (data-river-dot), then
          the location. The text has the page background so the line passes behind it. -->
     <div

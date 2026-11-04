@@ -1,0 +1,134 @@
+---
+// Outline of Ukraine with a pulsing, glowing dot at each recording's village. Each dot links to
+// its post and shows a popup with the place on hover or keyboard focus; occupied places are red.
+// The outline is SVG; the dots are HTML laid over it (positioned in % of the map), so the popup
+// text stays a normal size however small the map is drawn. A legend sits to the right of the
+// map (below it on narrow screens), with counts of songs, regions and occupied places under it.
+import { outline, project, viewBox } from '../data/ukraine';
+
+export interface MapPoint {
+    // Post anchor the dot links to (the post's `id`).
+    id: string;
+    title: string;
+    place: string;
+    lat: number;
+    lon: number;
+    occupied?: boolean;
+}
+
+interface Props {
+    points: MapPoint[];
+    class?: string;
+}
+
+const { points, class: className } = Astro.props;
+const [, , width, height] = viewBox.split(' ').map(Number);
+
+// Stats under the legend. The region is the part of `place` after the comma.
+const regions = new Set(points.map((point) => point.place.split(',').at(-1)!.trim()));
+const stats = [
+    { value: points.length, label: points.length === 1 ? 'song' : 'songs' },
+    { value: regions.size, label: regions.size === 1 ? 'region' : 'regions' },
+    { value: points.filter((point) => point.occupied).length, label: 'from occupied land' },
+];
+---
+
+<div class:list={['flex flex-col items-center justify-center gap-6 sm:flex-row sm:gap-10', className]}>
+    <div class="relative w-full max-w-md" role="group" aria-label="Map of Ukraine with the villages the recorded songs come from">
+        <svg viewBox={viewBox} class="block h-auto w-full" aria-hidden="true">
+            <path
+                d={outline}
+                fill="none"
+                stroke="var(--muted-foreground)"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+                vector-effect="non-scaling-stroke"
+            />
+        </svg>
+
+        {
+            points.map((point, i) => {
+                const { x, y } = project(point.lat, point.lon);
+                return (
+                    <a
+                        href={`#${point.id}`}
+                        class:list={['map-dot-link group absolute flex size-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center', point.occupied ? 'text-destructive' : 'text-foreground']}
+                        style={`left: ${(x / width) * 100}%; top: ${(y / height) * 100}%`}
+                        aria-label={`${point.title}: ${point.place}`}
+                    >
+                        <span class="map-dot size-2 rounded-full bg-current" style={`animation-delay: ${-i * 0.6}s`} />
+                        <!-- Popup above the dot. -->
+                        <span
+                            class="pointer-events-none absolute bottom-full left-1/2 z-10 -translate-x-1/2 rounded-[4px] bg-[#111111]/80 px-2 py-1 text-xs whitespace-nowrap opacity-0 backdrop-blur-sm transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
+                            aria-hidden="true"
+                        >
+                            {point.place}
+                        </span>
+                    </a>
+                );
+            })
+        }
+    </div>
+
+    <div class="flex shrink-0 flex-col gap-6">
+        <!-- Legend: what the dot colors mean. -->
+        <ul class="flex flex-col gap-3 text-sm text-foreground/75">
+            <li class="flex items-center gap-3">
+                <span class="map-dot map-dot-static size-2 shrink-0 rounded-full bg-current text-foreground" aria-hidden="true"></span>
+                Under Ukrainian control
+            </li>
+            <li class="flex items-center gap-3">
+                <span class="map-dot map-dot-static size-2 shrink-0 rounded-full bg-current text-destructive" aria-hidden="true"></span>
+                Temporarily occupied
+            </li>
+        </ul>
+
+        <!-- Stats: big number, small label. -->
+        <dl class="flex flex-col gap-2 border-t border-border pt-5">
+            {
+                stats.map((stat) => (
+                    <div class="flex items-baseline gap-2">
+                        <dt class="order-last text-sm text-foreground/75">{stat.label}</dt>
+                        <dd class="text-2xl font-bold tabular-nums">{stat.value}</dd>
+                    </div>
+                ))
+            }
+        </dl>
+    </div>
+</div>
+
+<style>
+    /* Dot with a bloom in its own color (a tight and a wide glow), pulsing in size; each dot's
+       pulse is offset by its inline animation-delay. Off for reduced motion. */
+    .map-dot {
+        box-shadow:
+            0 0 4px 1px currentColor,
+            0 0 12px 3px color-mix(in srgb, currentColor 60%, transparent);
+        animation: map-dot-pulse 2.4s ease-in-out infinite;
+    }
+    .map-dot-static {
+        animation: none;
+    }
+    .map-dot-link:focus-visible {
+        outline: none;
+    }
+    .map-dot-link:hover .map-dot,
+    .map-dot-link:focus-visible .map-dot {
+        animation-play-state: paused;
+        scale: 1.5;
+    }
+    @keyframes map-dot-pulse {
+        0%,
+        100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.4);
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .map-dot {
+            animation: none;
+        }
+    }
+</style>
