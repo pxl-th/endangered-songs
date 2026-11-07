@@ -6,8 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://pxl-th.github.io',
-  base: '/endangered-songs',
+  site: 'https://endangered-songs.live',
   integrations: [react()],
 
   vite: {
